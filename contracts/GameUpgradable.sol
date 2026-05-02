@@ -243,6 +243,20 @@ contract GameUpgradable is IGame
         return _GUIDRemove(_msgSender(), _stringToBytes32("member"), 1);
     }
 
+    function _relationURISet() internal {
+        // require(roleHas(_msgSender(), "admin"), "Admin Only");
+        // _ruleRepo().ruleUpdateURI(ruleId, uri);
+
+        // dataRepo().addressGetOf(address(_HUB), "SBT")
+        
+    }
+        
+    /// [WIP]
+    // function relationURI() external view override returns (uint256) {
+        
+    // }
+
+
     /// Request to Join
     // function nominate(uint256 soulToken, string memory uri_) external override {
     //     emit Nominate(_msgSender(), soulToken, uri_);
@@ -353,7 +367,7 @@ contract GameUpgradable is IGame
         return _ruleRepo().ruleAdd(rule, effects, confirmation);
     }
 
-    /// Update Rule URI
+    /// Update Rule URI     //TODO!!! Change to Yoda Naming Conventions (General->Specific)
     function ruleUpdateURI(
         uint256 ruleId, 
         string calldata uri

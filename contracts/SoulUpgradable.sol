@@ -203,7 +203,6 @@ contract SoulUpgradable is
 
     /// Mint (Create New Token for oneself)
     function mint(string memory tokenURI) external override returns (uint256) {
-        //Mint
         return _mint(_msgSender(), tokenURI);
     }
 
