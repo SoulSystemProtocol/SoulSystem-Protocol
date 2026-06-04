@@ -9,6 +9,7 @@ import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/IERC721Upgradeable.sol";
 import "./interfaces/IERC1155RolesTracker.sol";
 import "./interfaces/ISoul.sol";
@@ -60,10 +61,11 @@ contract SoulUpgradable is
     /// Initializer
     function initialize(address hub) public initializer {
         //Initializers
+        __Ownable_init();
+        __ProtocolEntity_init(hub);
         __ERC721_init("Soulbound Identity", "SBT");
         __ERC721URIStorage_init();
         __UUPSUpgradeable_init();
-        __ProtocolEntity_init(hub);
     }
 
     /// Upgrade Permissions
@@ -108,7 +110,7 @@ contract SoulUpgradable is
     /**
      * @dev See {IERC721-balanceOf}.
      */
-    function balanceOf(address owner) public view override returns (uint256) {
+    function balanceOf(address owner) public view override(ERC721Upgradeable, IERC721Upgradeable) returns (uint256) {
         require(owner != address(0), "ERC721: balance query for the zero address");
         return (_owners_rev[owner] != 0) ? 1 : 0;
         // if(_owners_rev[owner] != 0) return 1;
@@ -292,7 +294,7 @@ contract SoulUpgradable is
         address from,
         address to,
         uint256 tokenId
-    ) public virtual override {
+    ) public virtual override(ERC721Upgradeable, IERC721Upgradeable) {
         _transfer(from, to, tokenId);
     }
 
