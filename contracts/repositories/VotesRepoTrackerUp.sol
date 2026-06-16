@@ -58,8 +58,10 @@ contract VotesRepoTrackerUp is IVotesRepoTracker,
     /// Initializer
     function initialize (address hub) public initializer {
         //Initializers
-        __UUPSUpgradeable_init();
+        __Ownable_init();
         __ProtocolEntity_init(hub);
+        __EIP712_init("VotesRepoTrackerUp", "1");
+        __UUPSUpgradeable_init();
         _setTargetContract( dataRepo().addressGetOf(address(_HUB), "SBT") );
     }
 

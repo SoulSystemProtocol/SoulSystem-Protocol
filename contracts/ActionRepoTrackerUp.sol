@@ -41,9 +41,10 @@ contract ActionRepoTrackerUp is
     /// Initializer
     function initialize (address hub) public initializer override {
         //Initializers
-        __UUPSUpgradeable_init();
+        __Ownable_init();
         __ProtocolEntity_init(hub);
-        _setTargetContract( dataRepo().addressGetOf(address(_HUB), "SBT") );
+        __ERC1155Tracker_init(dataRepo().addressGetOf(address(_HUB), "SBT"));
+        __UUPSUpgradeable_init();
     }
 
     /// Upgrade Permissions

@@ -503,13 +503,13 @@ describe("Protocol", function () {
     it("Admin can Create New Roles", async function () {
       const newRoles = [{name:"NewRole1", uri:"NewURI1"}, {name:"NewRole2", uri:"NewURI2"}];
 
-      this.gameContract.connect(admin).roleCreate(newRoles[0].name);
+      await this.gameContract.connect(admin).roleCreate(newRoles[0].name);
       //No Duplicates
       await expect(
         this.gameContract.connect(admin).roleCreate(newRoles[0].name)
       ).to.be.reverted;
 
-      this.gameContract.connect(admin).roleMake(newRoles[1].name, newRoles[1].uri);
+      await this.gameContract.connect(admin).roleMake(newRoles[1].name, newRoles[1].uri);
       //No Duplicates
       await expect(
         this.gameContract.connect(admin).roleMake(newRoles[1].name, newRoles[1].uri)
