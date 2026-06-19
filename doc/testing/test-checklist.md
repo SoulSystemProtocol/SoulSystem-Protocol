@@ -1,5 +1,7 @@
 # Test Checklist
 
+See `doc/testing/coverage-matrix.md` for the current behavior-to-test map.
+
 Run before merging contract or dependency changes:
 
 - `npm install`
@@ -8,6 +10,7 @@ Run before merging contract or dependency changes:
 - `npm run test:unit`
 - `npm run test:integration`
 - `npm run test:upgradeability`
+- `npm test`
 - `npx hardhat size-contracts`
 - `npm audit --audit-level=critical`
 

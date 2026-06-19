@@ -63,4 +63,4 @@ npm test
 
 ## CI
 
-GitHub Actions runs on every pushed commit and pull request. The workflow installs dependencies with `npm ci`, compiles contracts, then runs smoke, unit, integration, and upgradeability suites.
+GitHub Actions runs on every pushed commit and pull request. The workflow installs dependencies with `npm ci`, compiles contracts, then runs smoke, unit, integration, upgradeability, and full Hardhat suites.

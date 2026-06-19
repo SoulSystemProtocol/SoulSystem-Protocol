@@ -11,6 +11,8 @@ Date: 2026-06-19
 - 2026-06-19: Completed Phase 2 no-contract lifecycle coverage for claim happy path, task escrow, and Hub migration integration. Fixed the legacy broad-suite authority-assignment race by awaiting the parent-game role assignment before assigning claim authority.
 - Verification: `npx hardhat compile` passed; `npm run test:integration` passed with 22 tests; `npm test` passed with 174 tests.
 - 2026-06-19: Evaluated `npx hardhat coverage`. Coverage instrumentation starts with `solidity-coverage@0.8.17`, but the instrumented compile fails with `CompilerError: Stack too deep when compiling inline assembly: Variable headStart is 1 slot(s) too deep inside the stack`. The blocker is documented in `doc/testing/coverage-evaluation.md`; coverage should not be added to CI until the dependency/tooling migration workstream revisits it.
+- 2026-06-19: Ran fresh install verification. `npm ci` is blocked locally by a Windows native optional dependency build failure in `bufferutil` through `node-gyp-build`; details are documented in `doc/development/reproducibility.md`. Dependencies were restored with `npm install --ignore-scripts` for local verification only.
+- Verification after recovery: `npx hardhat compile` passed; `npm run test:smoke` passed with 5 tests; `npm run test:unit` passed with 27 tests; `npm run test:integration` passed with 22 tests; `npm run test:upgradeability` passed with 19 tests.
 
 ## Goal
 Expand the focused Hardhat test suite beyond the completed test-hardening pass, prioritizing coverage that improves confidence without requiring Solidity contract changes.
@@ -90,7 +92,7 @@ Expand the focused Hardhat test suite beyond the completed test-hardening pass, 
 
 ## Phase 3: Reproducibility and CI Confidence
 
-- [ ] Run fresh install verification.
+- [x] Run fresh install verification.
   - Run `npm ci`.
   - Run `npx hardhat compile`.
   - Run `npm run test:smoke`, `npm run test:unit`, `npm run test:integration`, and `npm run test:upgradeability`.
@@ -124,4 +126,4 @@ Expand the focused Hardhat test suite beyond the completed test-hardening pass, 
 - Upgradeability tests must not create false confidence; storage layout review is still required for Solidity storage changes.
 
 ## Next Action
-Continue with Phase 3 reproducibility checks: run fresh install verification with `npm ci`, then rerun the focused test scripts.
+Phase 3 is complete for no-contract work. Remaining items are contract-change candidates that need explicit contract-review approval.

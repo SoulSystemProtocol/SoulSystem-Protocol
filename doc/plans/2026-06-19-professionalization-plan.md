@@ -6,6 +6,7 @@ Date: 2026-06-19
 ## Progress Log
 
 - 2026-06-19: Added contributor workflow docs, quality policy docs, coverage evaluation notes, and protocol concept docs with Mermaid diagrams. Existing formatter/lint config files were reviewed; ESLint, Prettier, and Solhint are not installed as top-level dependencies, so lint enforcement remains a follow-up tooling task.
+- 2026-06-19: Consolidated GitHub Actions into the `tests` workflow so push, pull request, and manual runs execute compile, focused suites, upgradeability, and the full Hardhat suite. Added GitHub issue templates for contract changes, storage changes, dependency migrations, and no-contract changes. Added `doc/testing/coverage-matrix.md`.
 
 ## Goal
 Make the SoulSystem Protocol repository look and operate like a professional, maintainable smart-contract codebase without rushing into risky Solidity API or storage changes.
@@ -44,7 +45,7 @@ Make the SoulSystem Protocol repository look and operate like a professional, ma
   - Start as a report-only check.
   - Do not auto-fix contracts in the first pass.
 
-- [ ] Tighten CI quality gates.
+- [x] Tighten CI quality gates.
   - Ensure CI runs compile, smoke, unit, integration, upgradeability, and full test scripts as appropriate.
   - Add formatting and lint checks only after local configs are stable.
   - Keep Node version aligned with `package.json`.
@@ -75,7 +76,7 @@ Make the SoulSystem Protocol repository look and operate like a professional, ma
   - Document upgradeability review requirements.
   - Document when to run full suite versus focused scripts.
 
-- [ ] Add issue templates or task templates.
+- [x] Add issue templates or task templates.
   - Include templates for contract change, upgradeable storage change, test-only change, and dependency migration.
   - Require explicit storage-layout review for contract storage changes.
 
@@ -86,7 +87,7 @@ Make the SoulSystem Protocol repository look and operate like a professional, ma
   - Move equivalent coverage into focused files.
   - Retire legacy tests only after one-to-one coverage mapping is documented.
 
-- [ ] Add a coverage matrix.
+- [x] Add a coverage matrix.
   - Maintain `doc/testing/test-checklist.md` or a new coverage matrix doc.
   - Map contracts and major behaviors to focused test files.
   - Track remaining gaps.
@@ -148,4 +149,4 @@ These require explicit review before implementation because they change Solidity
 - Linting older Solidity may need calibrated rules to avoid low-value noise.
 
 ## Next Action
-Continue no-contract professionalization with issue/task templates and a coverage matrix, then decide whether to install lint tooling in a dedicated tooling commit.
+Continue no-contract professionalization with test helper consolidation and legacy broad-test mapping. Lint dependency installation remains a separate tooling commit.
