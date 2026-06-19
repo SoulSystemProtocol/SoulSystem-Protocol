@@ -2,7 +2,22 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` (recommended) or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Status:** In progress. Tasks 1 through 5 are implemented and verified. Task 6 is the next active slice. Commits are skipped unless explicitly requested by the user.
+**Status:** Done. Tasks 1 through 17 are implemented, verified, and committed.
+
+**Verification completed:**
+- `npx hardhat compile`: passed.
+- `npm run test:smoke`: 5 passing.
+- `npm run test:unit`: 17 passing.
+- `npm run test:integration`: 13 passing.
+- `npm run test:upgradeability`: 16 passing.
+- `npx hardhat test`: 152 passing.
+- `npm test`: 152 passing.
+
+**Implementation notes:**
+- Package test scripts use explicit file lists instead of `**/*.ts` globs so they work in PowerShell and CI.
+- Upgradeability tests use the actual Solidity contract name `VotesRepoTrackerUpInt`.
+- `GameUpgradable.join()` currently requires the caller to already have a Soul token; the focused role tests document that precondition.
+- Voting power starts with the creator's member vote after game creation; the integration test asserts that baseline before checking join/leave deltas.
 
 **Goal:** Build a reliable, maintainable test suite that documents and verifies the SoulSystem Protocol's core contract behavior, upgradeability assumptions, permissions, lifecycle flows, extension routing, and deployment helpers.
 
@@ -208,9 +223,9 @@ npx hardhat test test/preliminary.ts
 
 Expected: `5 passing`.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
-Skipped for now because the user has not requested a commit.
+Committed in `d266121` with message `test: harden protocol coverage`.
 
 ```shell
 git add test/preliminary.ts test/helpers
@@ -594,7 +609,7 @@ Expected: all Game role tests pass.
 - Create: `test/integration/ProtocolDeployment.ts`
 - Test: `test/integration/ProtocolDeployment.ts`
 
-- [ ] **Step 1: Add core deployment assertions**
+- [x] **Step 1: Add core deployment assertions**
 
 ```typescript
 import { expect } from "chai";
@@ -613,7 +628,7 @@ describe("Protocol deployment flow", function () {
 });
 ```
 
-- [ ] **Step 2: Verify**
+- [x] **Step 2: Verify**
 
 Run:
 
@@ -629,7 +644,7 @@ Expected: test passes.
 - Create: `test/integration/ClaimLifecycle.ts`
 - Test: `test/integration/ClaimLifecycle.ts`
 
-- [ ] **Step 1: Add claim factory setup**
+- [x] **Step 1: Add claim factory setup**
 
 Use `deployFullProtocol`, `impersonateAddress`, and `stopImpersonatingAddress` to create a game and claim.
 
@@ -657,7 +672,7 @@ async function createClaim() {
 }
 ```
 
-- [ ] **Step 2: Add draft validation tests**
+- [x] **Step 2: Add draft validation tests**
 
 ```typescript
 describe("Claim lifecycle", function () {
@@ -675,7 +690,7 @@ describe("Claim lifecycle", function () {
 });
 ```
 
-- [ ] **Step 3: Add stage permission tests**
+- [x] **Step 3: Add stage permission tests**
 
 ```typescript
 it("rejects unauthorized stage transitions", async function () {
@@ -688,7 +703,7 @@ it("rejects unauthorized stage transitions", async function () {
 });
 ```
 
-- [ ] **Step 4: Verify**
+- [x] **Step 4: Verify**
 
 Run:
 
@@ -704,11 +719,11 @@ Expected: tests pass or expose current lifecycle setup requirements that must be
 - Create: `test/integration/TaskLifecycle.ts`
 - Test: `test/integration/TaskLifecycle.ts`
 
-- [ ] **Step 1: Add task creation helper**
+- [x] **Step 1: Add task creation helper**
 
 Create a helper inside `TaskLifecycle.ts` following the same pattern as `createClaim`, but call `makeTask("TASK", "Task One", test_uri)`.
 
-- [ ] **Step 2: Add stage tests**
+- [x] **Step 2: Add stage tests**
 
 ```typescript
 it("opens from draft stage", async function () {
@@ -729,7 +744,7 @@ it("rejects applications before the task is open", async function () {
 });
 ```
 
-- [ ] **Step 3: Add application acceptance test**
+- [x] **Step 3: Add application acceptance test**
 
 ```typescript
 it("accepts an applicant after opening", async function () {
@@ -748,7 +763,7 @@ it("accepts an applicant after opening", async function () {
 });
 ```
 
-- [ ] **Step 4: Verify**
+- [x] **Step 4: Verify**
 
 Run:
 
@@ -765,7 +780,7 @@ Expected: all task lifecycle tests pass.
 - Create: `test/integration/RuleEffects.ts`
 - Test: `test/integration/RuleEffects.ts`
 
-- [ ] **Step 1: Create rule data helpers**
+- [x] **Step 1: Create rule data helpers**
 
 ```typescript
 export function makeRule(affected = "subject", uri = "ipfs://rule") {
@@ -795,7 +810,7 @@ export function makeConfirmation() {
 
 If the current `DataTypes` structs differ from these field names, adjust this helper to match `contracts/libraries/DataTypes.sol` exactly before writing tests.
 
-- [ ] **Step 2: Add rule creation tests**
+- [x] **Step 2: Add rule creation tests**
 
 Create `test/integration/RuleEffects.ts` and verify:
 
@@ -803,7 +818,7 @@ Create `test/integration/RuleEffects.ts` and verify:
 - non-admin cannot add a rule;
 - `ruleGet`, `effectsGet`, and `confirmationGet` return the stored values.
 
-- [ ] **Step 3: Add effect execution test**
+- [x] **Step 3: Add effect execution test**
 
 Test `GameUpgradable.reportEvent`:
 
@@ -813,7 +828,7 @@ Test `GameUpgradable.reportEvent`:
 - call `reportEvent`;
 - assert `SoulUpgradable.getOpinion(...)` changes by the effect value.
 
-- [ ] **Step 4: Verify**
+- [x] **Step 4: Verify**
 
 Run:
 
@@ -830,7 +845,7 @@ Expected: rule and effect tests pass. If `DataTypes` shape makes helper code inv
 - Create: `test/integration/VotingPower.ts`
 - Test: both files
 
-- [ ] **Step 1: Add repository-level vote tests**
+- [x] **Step 1: Add repository-level vote tests**
 
 Cover:
 
@@ -839,7 +854,7 @@ Cover:
 - transfer voting units between two soul tokens;
 - total supply changes as expected.
 
-- [ ] **Step 2: Add Game role transfer vote tests**
+- [x] **Step 2: Add Game role transfer vote tests**
 
 Cover:
 
@@ -849,7 +864,7 @@ Cover:
 - user leaves game;
 - voting unit is removed or transferred according to current implementation.
 
-- [ ] **Step 3: Verify**
+- [x] **Step 3: Verify**
 
 Run:
 
@@ -865,7 +880,7 @@ Expected: vote accounting matches role membership behavior.
 - Create: `test/integration/Extensions.ts`
 - Test: `test/integration/Extensions.ts`
 
-- [ ] **Step 1: Test missing extension routing**
+- [x] **Step 1: Test missing extension routing**
 
 Create a game with a type that has no registered extension and call a known extension function through the game address.
 
@@ -875,11 +890,11 @@ Expected revert:
 NO_FALLBACK_CONTRACTS
 ```
 
-- [ ] **Step 2: Test registered extension routing**
+- [x] **Step 2: Test registered extension routing**
 
 Deploy `ActionExt`, `VotesExt`, or another known extension, register it under the correct `GAME_<type>` key, create a game of that type, attach extension ABI to the game address, and call a read function.
 
-- [ ] **Step 3: Verify**
+- [x] **Step 3: Verify**
 
 Run:
 
@@ -899,7 +914,7 @@ Expected: extension routing succeeds only when configured.
 - Create: `test/upgradeability/UUPSValidation.ts`
 - Test: `test/upgradeability/UUPSValidation.ts`
 
-- [ ] **Step 1: Validate UUPS implementations**
+- [x] **Step 1: Validate UUPS implementations**
 
 ```typescript
 import { ethers, upgrades } from "hardhat";
@@ -922,7 +937,7 @@ describe("UUPS upgradeability validation", function () {
 });
 ```
 
-- [ ] **Step 2: Verify**
+- [x] **Step 2: Verify**
 
 Run:
 
@@ -938,7 +953,7 @@ Expected: validation passes or reports exact initializer/storage warnings that m
 - Create: `test/upgradeability/BeaconValidation.ts`
 - Test: `test/upgradeability/BeaconValidation.ts`
 
-- [ ] **Step 1: Test owner can register and upgrade beacon implementations**
+- [x] **Step 1: Test owner can register and upgrade beacon implementations**
 
 Cover:
 
@@ -948,7 +963,7 @@ Cover:
 - owner calls `upgradeImplementation`;
 - non-owner upgrade attempt reverts.
 
-- [ ] **Step 2: Verify**
+- [x] **Step 2: Verify**
 
 Run:
 
@@ -965,7 +980,7 @@ Expected: beacon permissions and duplicate protections are enforced.
 - Create: `doc/testing/storage-layout-testing.md`
 - Test: `test/upgradeability/StorageLayout.ts`
 
-- [ ] **Step 1: Document storage safety rule**
+- [x] **Step 1: Document storage safety rule**
 
 Create `doc/testing/storage-layout-testing.md`:
 
@@ -984,11 +999,11 @@ OpenZeppelin Contracts major-version upgrades require a separate storage-layout 
 ```
 ```
 
-- [ ] **Step 2: Add storage gate test**
+- [x] **Step 2: Add storage gate test**
 
 Use `upgrades.validateImplementation` for each upgradeable contract. If the project later adds mock V2 contracts, extend this test to call `upgrades.validateUpgrade`.
 
-- [ ] **Step 3: Verify**
+- [x] **Step 3: Verify**
 
 Run:
 
@@ -1009,7 +1024,7 @@ Expected: all validations pass or produce documented blockers.
 - Modify: `utils/deployment.ts` only if tests expose helper bugs
 - Test: `test/scripts/DeploymentHelpers.ts`
 
-- [ ] **Step 1: Test `deployContract`**
+- [x] **Step 1: Test `deployContract`**
 
 ```typescript
 import { expect } from "chai";
@@ -1024,7 +1039,7 @@ describe("deployment helpers", function () {
 });
 ```
 
-- [ ] **Step 2: Test `deployUUPS`**
+- [x] **Step 2: Test `deployUUPS`**
 
 ```typescript
 it("deploys UUPS proxies", async function () {
@@ -1034,7 +1049,7 @@ it("deploys UUPS proxies", async function () {
 });
 ```
 
-- [ ] **Step 3: Test `deployHub`**
+- [x] **Step 3: Test `deployHub`**
 
 ```typescript
 it("deploys the hub with game, claim, and task beacons", async function () {
@@ -1047,7 +1062,7 @@ it("deploys the hub with game, claim, and task beacons", async function () {
 });
 ```
 
-- [ ] **Step 4: Verify**
+- [x] **Step 4: Verify**
 
 Run:
 
@@ -1067,7 +1082,7 @@ Expected: all helper tests pass.
 - Modify: `package.json`
 - Test: npm scripts
 
-- [ ] **Step 1: Replace placeholder `test` script**
+- [x] **Step 1: Replace placeholder `test` script**
 
 Update scripts:
 
@@ -1085,7 +1100,7 @@ Update scripts:
 }
 ```
 
-- [ ] **Step 2: Verify scripts**
+- [x] **Step 2: Verify scripts**
 
 Run:
 
@@ -1104,7 +1119,7 @@ Expected: scripts execute the intended test subsets.
 - Create: `doc/testing/test-checklist.md`
 - Optional create: `.github/workflows/test.yml`
 
-- [ ] **Step 1: Create test checklist**
+- [x] **Step 1: Create test checklist**
 
 ```markdown
 # Test Checklist
@@ -1128,7 +1143,7 @@ Contract changes require:
 - storage-layout review for any storage variable change.
 ```
 
-- [ ] **Step 2: Add GitHub Actions workflow after scripts are stable**
+- [x] **Step 2: Add GitHub Actions workflow after scripts are stable**
 
 Create `.github/workflows/test.yml`:
 
@@ -1161,7 +1176,7 @@ jobs:
       - run: npm run test:upgradeability
 ```
 
-- [ ] **Step 3: Verify locally**
+- [x] **Step 3: Verify locally**
 
 Run:
 
