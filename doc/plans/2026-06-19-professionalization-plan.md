@@ -1,7 +1,11 @@
 # Codebase Professionalization Plan
 
-Status: Planned
+Status: In Progress
 Date: 2026-06-19
+
+## Progress Log
+
+- 2026-06-19: Added contributor workflow docs, quality policy docs, coverage evaluation notes, and protocol concept docs with Mermaid diagrams. Existing formatter/lint config files were reviewed; ESLint, Prettier, and Solhint are not installed as top-level dependencies, so lint enforcement remains a follow-up tooling task.
 
 ## Goal
 Make the SoulSystem Protocol repository look and operate like a professional, maintainable smart-contract codebase without rushing into risky Solidity API or storage changes.
@@ -25,17 +29,17 @@ Make the SoulSystem Protocol repository look and operate like a professional, ma
 
 ## Phase 1: No-Contract Repository Hygiene
 
-- [ ] Add shared formatting policy.
+- [x] Add shared formatting policy.
   - Add or review `.prettierrc`, `.prettierignore`, and Solidity formatting rules.
   - Keep formatting changes in a separate commit from behavior changes.
   - Run formatting only on scoped files first to avoid noisy repository-wide churn.
 
-- [ ] Add TypeScript linting policy.
+- [x] Add TypeScript linting policy.
   - Add ESLint config compatible with the current Hardhat/TypeScript stack.
   - Start with tests and scripts.
   - Make lint warnings actionable before enforcing in CI.
 
-- [ ] Add Solidity linting policy.
+- [x] Add Solidity linting policy.
   - Evaluate `solhint` against current Solidity versions.
   - Start as a report-only check.
   - Do not auto-fix contracts in the first pass.
@@ -56,16 +60,16 @@ Make the SoulSystem Protocol repository look and operate like a professional, ma
 
 ## Phase 2: No-Contract Documentation Improvements
 
-- [ ] Add protocol concept docs.
+- [x] Add protocol concept docs.
   - Create docs for Hub, Soul, Game, Claim, Task, RuleRepo, ActionRepo, and VotesRepo.
   - Explain responsibilities, key associations, permissions, and lifecycle stages.
   - Link to focused tests as executable examples.
 
-- [ ] Add architecture diagrams.
+- [x] Add architecture diagrams.
   - Add Mermaid diagrams for Hub associations, game/procedure creation, and rule/effect flow.
   - Keep diagrams source-controlled as Markdown.
 
-- [ ] Add contributor workflow docs.
+- [x] Add contributor workflow docs.
   - Document local setup.
   - Document test commands.
   - Document upgradeability review requirements.
@@ -144,4 +148,4 @@ These require explicit review before implementation because they change Solidity
 - Linting older Solidity may need calibrated rules to avoid low-value noise.
 
 ## Next Action
-Start with no-contract hygiene: formatting policy, TypeScript linting for tests/scripts, and protocol concept docs.
+Continue no-contract professionalization with issue/task templates and a coverage matrix, then decide whether to install lint tooling in a dedicated tooling commit.
