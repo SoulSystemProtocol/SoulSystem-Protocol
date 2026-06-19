@@ -1,7 +1,13 @@
 # Additional Test Coverage Plan
 
-Status: Planned
+Status: In Progress
 Date: 2026-06-19
+
+## Progress Log
+
+- 2026-06-19: Completed Phase 1 no-contract test additions for ActionRepo, OpenRepo edges, rule management, UUPS authorization, and multiple-extension routing. Updated package test scripts to include the new files.
+- Verification: `npx hardhat compile` passed; `npm run test:unit` passed with 27 tests; `npm run test:integration` passed with 16 tests; `npm run test:upgradeability` passed with 19 tests; `npm test` passed on rerun with 168 tests.
+- Note: The first full `npm test` run hit a legacy broad-suite failure in `test/index.ts` under `Protocol > Project Game Flow > Court Game Flow > Game Authoritys Can Assign Themselves to Claim`; the immediate rerun passed without code changes. Treat that legacy block as a candidate for stabilization when splitting broad tests.
 
 ## Goal
 Expand the focused Hardhat test suite beyond the completed test-hardening pass, prioritizing coverage that improves confidence without requiring Solidity contract changes.
@@ -25,32 +31,32 @@ Expand the focused Hardhat test suite beyond the completed test-hardening pass, 
 
 ## Phase 1: No-Contract Test Additions
 
-- [ ] Add `test/unit/ActionRepo.ts`.
+- [x] Add `test/unit/ActionRepo.ts`.
   - Cover action hash determinism.
   - Cover `actionAdd`, `actionGet`, `actionGetStr`, `actionSetURI`, and `actionGetURI`.
   - Cover duplicate action rejection with `Action Already Exists`.
   - Cover bad GUID reads.
   - Add a targeted test for `actionAddBatch`; if it fails because of array initialization, document the failure and create a contract-fix task instead of changing Solidity in this phase.
 
-- [ ] Add focused OpenRepo edge tests.
+- [x] Add focused OpenRepo edge tests.
   - Extend `test/unit/OpenRepo.ts` or create `test/unit/OpenRepoEdges.ts`.
   - Cover duplicate address additions.
   - Cover removing a missing value.
   - Cover `addressGetAllOf` ordering and caller scope.
   - Cover string/bool/uint overwrite behavior.
 
-- [ ] Add rule update permission tests.
+- [x] Add rule update permission tests.
   - Extend `test/integration/RuleEffects.ts` or create `test/integration/RuleManagement.ts`.
   - Cover non-admin rejection for `ruleUpdateURI`, `ruleUpdateEffects`, `ruleUpdateConditions`, `ruleUpdateConfirmation`, and `ruleDisable`.
   - Cover admin success paths and stored-value assertions.
 
-- [ ] Add UUPS upgrade authorization tests.
+- [x] Add UUPS upgrade authorization tests.
   - Create `test/upgradeability/UUPSAuthorization.ts`.
   - Deploy representative UUPS proxies.
   - Assert non-owner upgrade attempts revert.
   - Assert owner upgrade path is at least permissioned correctly; avoid introducing mock V2 contracts unless needed.
 
-- [ ] Add multiple-extension routing tests.
+- [x] Add multiple-extension routing tests.
   - Extend `test/integration/Extensions.ts`.
   - Register multiple extensions under one game type.
   - Verify the expected extension handles the selector.
@@ -96,6 +102,7 @@ Expand the focused Hardhat test suite beyond the completed test-hardening pass, 
 - [ ] Investigate `ActionRepoTrackerUp.actionAddBatch`.
   - Only change Solidity if the focused test proves the current implementation is broken.
   - If changed, add a migration note because this is an upgradeable contract.
+  - Current no-contract coverage documents that `actionAddBatch` reverts; a contract-fix task is still required before expecting batch add success.
 
 - [ ] Decide whether `GameUpgradable.join()` should auto-mint Soul tokens.
   - Current focused tests document that callers must already own a Soul token.
@@ -114,4 +121,4 @@ Expand the focused Hardhat test suite beyond the completed test-hardening pass, 
 - Upgradeability tests must not create false confidence; storage layout review is still required for Solidity storage changes.
 
 ## Next Action
-Start with `test/unit/ActionRepo.ts` and OpenRepo edge coverage because both are high-value and should not require contract changes.
+Continue with Phase 2 no-contract lifecycle coverage: claim happy path, task escrow, and Hub migration integration tests.

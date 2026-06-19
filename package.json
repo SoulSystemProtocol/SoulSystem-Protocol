@@ -9,9 +9,9 @@
   },
   "scripts": {
     "test": "hardhat test",
-    "test:unit": "hardhat test test/unit/OpenRepo.ts test/unit/Soul.ts test/unit/Hub.ts test/unit/GameRoles.ts test/unit/VotesRepo.ts",
-    "test:integration": "hardhat test test/integration/ProtocolDeployment.ts test/integration/ClaimLifecycle.ts test/integration/TaskLifecycle.ts test/integration/RuleEffects.ts test/integration/VotingPower.ts test/integration/Extensions.ts",
-    "test:upgradeability": "hardhat test test/upgradeability/UUPSValidation.ts test/upgradeability/BeaconValidation.ts test/upgradeability/StorageLayout.ts",
+    "test:unit": "hardhat test test/unit/OpenRepo.ts test/unit/OpenRepoEdges.ts test/unit/Soul.ts test/unit/Hub.ts test/unit/GameRoles.ts test/unit/ActionRepo.ts test/unit/VotesRepo.ts",
+    "test:integration": "hardhat test test/integration/ProtocolDeployment.ts test/integration/ClaimLifecycle.ts test/integration/TaskLifecycle.ts test/integration/RuleEffects.ts test/integration/RuleManagement.ts test/integration/VotingPower.ts test/integration/Extensions.ts",
+    "test:upgradeability": "hardhat test test/upgradeability/UUPSValidation.ts test/upgradeability/UUPSAuthorization.ts test/upgradeability/BeaconValidation.ts test/upgradeability/StorageLayout.ts",
     "test:smoke": "hardhat test test/preliminary.ts",
     "size": "hardhat size-contracts",
     "typechain": "hardhat typechain"

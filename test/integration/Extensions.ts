@@ -40,4 +40,31 @@ describe("Game extension routing", function () {
 
     expect(await actionGame.test()).to.equal("WORKS");
   });
+
+  it("routes selectors across multiple registered extensions for one game type", async function () {
+    const deployment = await deployFullProtocol();
+    const actionExt = await deployContract("ActionExt", []);
+    const votesExt = await deployContract("VotesExt", []);
+    await deployment.hub.assocAdd("GAME_MDAO", votesExt.address);
+    await deployment.hub.assocAdd("GAME_MDAO", actionExt.address);
+
+    const [, voter] = await ethers.getSigners();
+    const voterAddress = await voter.getAddress();
+    const gameAddress = await deployment.hub.callStatic.makeGame(
+      "MDAO",
+      "Multi Extension Game",
+      test_uri
+    );
+    await deployment.hub.makeGame("MDAO", "Multi Extension Game", test_uri);
+
+    await deployment.soul.connect(voter).mint(test_uri);
+    const game = await ethers.getContractAt("GameUpgradable", gameAddress);
+    await game.connect(voter).join();
+
+    const actionGame = await ethers.getContractAt("ActionExt", gameAddress);
+    const votesGame = await ethers.getContractAt("VotesExt", gameAddress);
+
+    expect(await actionGame.test()).to.equal("WORKS");
+    expect(await votesGame.getVotes(voterAddress)).to.equal(1);
+  });
 });
