@@ -1,8 +1,8 @@
 import { expect } from "chai";
 import { Contract, Signer } from "ethers";
 import { ethers } from "hardhat";
-import { deployHub, deployUUPS } from "../utils/deployment";
 import { test_uri, test_uri2 } from "../utils/consts";
+import { deployCoreProtocol } from "./helpers/deployProtocol";
 
 describe("Preliminary protocol behavior", function () {
   let owner: Signer;
@@ -20,11 +20,10 @@ describe("Preliminary protocol behavior", function () {
     ownerAddress = await owner.getAddress();
     memberAddress = await member.getAddress();
 
-    dataRepo = await deployUUPS("OpenRepoUpgradable", []);
-    hub = await deployHub(dataRepo.address);
-    soul = await deployUUPS("SoulUpgradable", [hub.address]);
-
-    await hub.assocSet("SBT", soul.address);
+    const deployed = await deployCoreProtocol();
+    dataRepo = deployed.dataRepo;
+    hub = deployed.hub;
+    soul = deployed.soul;
   });
 
   it("wires the hub to the shared repository and SBT association", async function () {
