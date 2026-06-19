@@ -8,6 +8,8 @@ Date: 2026-06-19
 - 2026-06-19: Completed Phase 1 no-contract test additions for ActionRepo, OpenRepo edges, rule management, UUPS authorization, and multiple-extension routing. Updated package test scripts to include the new files.
 - Verification: `npx hardhat compile` passed; `npm run test:unit` passed with 27 tests; `npm run test:integration` passed with 16 tests; `npm run test:upgradeability` passed with 19 tests; `npm test` passed on rerun with 168 tests.
 - Note: The first full `npm test` run hit a legacy broad-suite failure in `test/index.ts` under `Protocol > Project Game Flow > Court Game Flow > Game Authoritys Can Assign Themselves to Claim`; the immediate rerun passed without code changes. Treat that legacy block as a candidate for stabilization when splitting broad tests.
+- 2026-06-19: Completed Phase 2 no-contract lifecycle coverage for claim happy path, task escrow, and Hub migration integration. Fixed the legacy broad-suite authority-assignment race by awaiting the parent-game role assignment before assigning claim authority.
+- Verification: `npx hardhat compile` passed; `npm run test:integration` passed with 22 tests; `npm test` passed with 174 tests.
 
 ## Goal
 Expand the focused Hardhat test suite beyond the completed test-hardening pass, prioritizing coverage that improves confidence without requiring Solidity contract changes.
@@ -64,21 +66,21 @@ Expand the focused Hardhat test suite beyond the completed test-hardening pass, 
 
 ## Phase 2: No-Contract Lifecycle Coverage
 
-- [ ] Add claim happy-path lifecycle tests.
+- [x] Add claim happy-path lifecycle tests.
   - Create `test/integration/ClaimHappyPath.ts`.
   - Assign subject and authority roles.
   - Add a rule reference.
   - File claim, move to decision, submit verdict, assert closed stage.
   - Assert confirmed rule effects apply to the subject.
 
-- [ ] Add focused task payout/refund tests.
+- [x] Add focused task payout/refund tests.
   - Create `test/integration/TaskEscrow.ts`.
   - Cover ETH funding and winner disbursement.
   - Cover ERC20 funding and winner disbursement.
   - Cover cancellation refund to creator.
   - Cover late-fund behavior currently represented in legacy tests.
 
-- [ ] Add Hub migration integration tests.
+- [x] Add Hub migration integration tests.
   - Create `test/integration/HubMigration.ts`.
   - Extend existing `test/Hub.ts` behavior with focused assertions.
   - Verify child contracts update hub references.
@@ -121,4 +123,4 @@ Expand the focused Hardhat test suite beyond the completed test-hardening pass, 
 - Upgradeability tests must not create false confidence; storage layout review is still required for Solidity storage changes.
 
 ## Next Action
-Continue with Phase 2 no-contract lifecycle coverage: claim happy path, task escrow, and Hub migration integration tests.
+Continue with Phase 3 reproducibility checks: fresh install verification and coverage command evaluation.

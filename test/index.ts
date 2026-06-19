@@ -1347,7 +1347,7 @@ describe("Protocol", function () {
 
       it("Game Authoritys Can Assign Themselves to Claim", async function () {
         //Assign as Game Authority
-        gameContract.connect(admin).roleAssign(this.tester4Addr, "authority", 1);
+        await gameContract.connect(admin).roleAssign(this.tester4Addr, "authority", 1);
         //Assign Claim Authority
         await this.claimContract.connect(tester4).roleAssign(this.tester4Addr, "authority", 1);
         //Validate
