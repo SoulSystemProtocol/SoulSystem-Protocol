@@ -531,7 +531,6 @@ describe("Protocol", function () {
     /* ERC1155 Tracker is now using Using ERC1155TrackerUpMin which doesn't have transfer functions
     it("Should NOT be transferable", async function () {
       let authTokenId = await this.gameContract.roleToId("authority");
-      console.log('authTokenId:', authTokenId, this.authorityAddr, this.testerAddr, authTokenId, 1, '');
       // authTokenId: BigNumber { value: "3" } 0x23618e81E3f5cdF7f54C3d65f7FBc0aBf5B21E8f 0x90F79bf6EB2c4f870365E785982E1f101E93b906 BigNumber { value: "3" } 1 
       
       // const newGameContract = await ethers.getContractFactory("ERC1155").then(res => res.attach(this.gameContract.address));

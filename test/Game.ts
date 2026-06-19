@@ -124,7 +124,6 @@ describe("Game Extensions", function () {
             it("Run Actions", async function () {
                 let actionGUID = "0x5e89aafb7762888023ad6f29f35fbd9d43628385b48bf160b748b67607ff42b2";
                 let role = await this.gameContract.confGet("role")
-                console.log("Game role", role);
 
                 let sbt = await this.soulContract.tokenByAddress(this.gameContract.address);
                 let rate = {
@@ -154,7 +153,6 @@ describe("Game Extensions", function () {
                 // console.log("Action 1 Events: ", receipt1.events);
 
                 let rep = await this.soulContract.getOpinion(sbt, this.soulContract.address, rate.tokenId, "personal");
-                console.log("Game Rep for tokenId:"+rate.tokenId, {rep});
 
                 expect(rep).to.equal(rate.amount);
             });

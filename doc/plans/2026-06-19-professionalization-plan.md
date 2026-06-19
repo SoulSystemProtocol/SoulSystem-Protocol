@@ -7,6 +7,7 @@ Date: 2026-06-19
 
 - 2026-06-19: Added contributor workflow docs, quality policy docs, coverage evaluation notes, and protocol concept docs with Mermaid diagrams. Existing formatter/lint config files were reviewed; ESLint, Prettier, and Solhint are not installed as top-level dependencies, so lint enforcement remains a follow-up tooling task.
 - 2026-06-19: Consolidated GitHub Actions into the `tests` workflow so push, pull request, and manual runs execute compile, focused suites, upgradeability, and the full Hardhat suite. Added GitHub issue templates for contract changes, storage changes, dependency migrations, and no-contract changes. Added `doc/testing/coverage-matrix.md`.
+- 2026-06-19: Silenced legacy test-side debug output, gated shared deployment-helper logs during Hardhat tests, added typed procedure fixtures for claim/task focused tests, and added `doc/testing/legacy-test-map.md`.
 
 ## Goal
 Make the SoulSystem Protocol repository look and operate like a professional, maintainable smart-contract codebase without rushing into risky Solidity API or storage changes.
@@ -50,11 +51,11 @@ Make the SoulSystem Protocol repository look and operate like a professional, ma
   - Add formatting and lint checks only after local configs are stable.
   - Keep Node version aligned with `package.json`.
 
-- [ ] Clean test output.
+- [x] Clean test output.
   - Remove or silence test-side debug logs where possible.
   - Document contract-side `hardhat/console.sol` cleanup separately because that touches Solidity files.
 
-- [ ] Improve TypeScript test helpers.
+- [x] Improve TypeScript test helpers.
   - Move repeated game/procedure setup into reusable helpers.
   - Add typed helper return interfaces.
   - Prefer TypeChain-generated types where available.
@@ -82,7 +83,7 @@ Make the SoulSystem Protocol repository look and operate like a professional, ma
 
 ## Phase 3: Test Suite Professionalization Without Contract Changes
 
-- [ ] Continue splitting legacy broad tests.
+- [x] Continue splitting legacy broad tests.
   - Identify assertions in `test/index.ts`, `test/Game.ts`, and `test/Hub.ts`.
   - Move equivalent coverage into focused files.
   - Retire legacy tests only after one-to-one coverage mapping is documented.
@@ -149,4 +150,4 @@ These require explicit review before implementation because they change Solidity
 - Linting older Solidity may need calibrated rules to avoid low-value noise.
 
 ## Next Action
-Continue no-contract professionalization with test helper consolidation and legacy broad-test mapping. Lint dependency installation remains a separate tooling commit.
+No-contract professionalization is complete for the current plan. Remaining implementation items touch contracts or dependency/tooling migration.

@@ -57,3 +57,4 @@ Policy:
 
 - Remove test-side logs in no-contract cleanup commits.
 - Treat contract-side log cleanup as Solidity work and verify compile plus full tests after each small batch.
+- Keep deployment-script logs for real-network scripts, but silence shared deployment helpers during Hardhat tests unless a task explicitly needs diagnostic output.

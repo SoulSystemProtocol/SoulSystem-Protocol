@@ -31,7 +31,7 @@ This matrix maps core protocol behavior to focused tests. It is the current conf
 
 ## Remaining Gaps
 
-- Legacy tests in `test/index.ts`, `test/Game.ts`, and `test/Hub.ts` still contain broad historical behavior that should be mapped before removal.
+- Legacy tests in `test/index.ts`, `test/Game.ts`, and `test/Hub.ts` still contain broad historical behavior that should be mapped before removal. See `doc/testing/legacy-test-map.md`.
 - `ActionRepoTrackerUp.actionAddBatch` is documented as a current boundary; contract behavior requires a separate reviewed task before expecting success.
 - Contract-side `hardhat/console.sol` cleanup requires Solidity edits and full regression verification.
 - Coverage tooling is blocked; see `doc/testing/coverage-evaluation.md`.

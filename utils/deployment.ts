@@ -8,6 +8,12 @@ const { upgrades } = require("hardhat");
 const hre = require("hardhat");
 const chain = hre.hardhatArguments.network;
 const contractAddr = contractAddrs[chain];
+const shouldLogDeployment = Boolean(chain && chain !== "hardhat");
+const deploymentLog = (...args: unknown[]) => {
+  if (shouldLogDeployment) {
+    console.log(...args);
+  }
+};
 
 // export const deployRepoRules = async (contractAddress: string, args: any[]) => {
 // }
@@ -26,13 +32,13 @@ export const deployUUPS = async (contractName: string, args: any[]) => {
 /// Deploy Game Extensions
 export const deployGameExt = async (hubContract: Contract) => {
   let verification:any = [];
-  console.log("Start Deploying Game Extensions...");
+  deploymentLog("Start Deploying Game Extensions...");
 
   /* [mumbai] FAILS W/reason: 'replacement fee too low', code: 'REPLACEMENT_UNDERPRICED', */
   // if(chain!=='mumbai'){
     //Game Extension: Court of Law
     await deployContract("CourtExt", []).then(async res => {
-      console.log("(i) Deployed Game Extension: CourtExt", res.address);
+      deploymentLog("(i) Deployed Game Extension: CourtExt", res.address);
       verification.push({name:"CourtExt", address:res.address, params:[]});
       await hubContract.assocSet("GAME_COURT", res.address);
     });
@@ -40,19 +46,19 @@ export const deployGameExt = async (hubContract: Contract) => {
   
   //Game Extension: mDAO
   await deployContract("MicroDAOExt", []).then(async res => {
-    console.log("(i) Deployed Game Extension: MicroDAOExt", res.address);
+    deploymentLog("(i) Deployed Game Extension: MicroDAOExt", res.address);
     verification.push({name:"MicroDAOExt", address:res.address, params:[]});
     await hubContract.assocSet("GAME_MDAO", res.address);
   });
   //Game Extension: Project
   await deployContract("ProjectExt", []).then(async res => {
-    console.log("(i) Deployed Game Extension: ProjectExt", res.address);
+    deploymentLog("(i) Deployed Game Extension: ProjectExt", res.address);
     verification.push({name:"ProjectExt", address:res.address, params:[]});
     await hubContract.assocSet("GAME_PROJECT", res.address);
   });
   //Game Extension: Fund Management
   await deployContract("FundManExt", []).then(async res => {
-    console.log("(i) Deployed Game Extension: FundManExt", res.address);
+    deploymentLog("(i) Deployed Game Extension: FundManExt", res.address);
     verification.push({name:"FundManExt", address:res.address, params:[]});
     // await hubContract.assocAdd("GAME_DAO", res.address);
     await hubContract.assocAdd("GAME_MDAO", res.address);
@@ -61,7 +67,7 @@ export const deployGameExt = async (hubContract: Contract) => {
   
   //Game Extension: Votes Support
   await deployContract("VotesExt", []).then(async res => {
-    console.log("(i) Deployed Game Extension: VotesExt", res.address);
+    deploymentLog("(i) Deployed Game Extension: VotesExt", res.address);
     verification.push({name:"VotesExt", address:res.address, params:[]});
     await hubContract.assocAdd("GAME_MDAO", res.address);
   });
@@ -69,7 +75,7 @@ export const deployGameExt = async (hubContract: Contract) => {
 
   //[WIP] Game Extension: Actions
   await deployContract("ActionExt", []).then(async res => {
-    console.log("(i) Deployed Game Extension: ActionExt", res.address);
+    deploymentLog("(i) Deployed Game Extension: ActionExt", res.address);
     verification.push({name:"ActionExt", address:res.address, params:[]});
     await hubContract.assocAdd("GAME_MDAO", res.address);
   });
